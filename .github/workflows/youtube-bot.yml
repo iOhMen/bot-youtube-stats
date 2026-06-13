@@ -1,0 +1,32 @@
+﻿name: YouTube Stats Title Bot
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+jobs:
+  update-title:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar bot
+        run: node bot.js
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REDIRECT_URI: ${{ secrets.REDIRECT_URI }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          VIDEO_ID: ${{ secrets.VIDEO_ID }}
+          DRY_RUN: ${{ secrets.DRY_RUN }}
